@@ -1,0 +1,529 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* =========================================================
+   DATAMERIDIAN
+   Research Data Lifecycle Platform
+   Dark + Green Data Network Theme
+========================================================= */
+
+:root {
+  color-scheme: dark;
+
+  /* =======================================================
+     BRAND COLORS
+  ======================================================= */
+
+  --primary: #08CB00;
+  --primary-dark: #253900;
+  --black: #000000;
+  --grey: #EEEEEE;
+
+  /* =======================================================
+     BACKGROUNDS
+  ======================================================= */
+
+  --background: #000000;
+  --background-secondary: #080A06;
+
+  --sidebar: #030603;
+  --navbar: #050805;
+
+  --surface: #0C100A;
+  --surface-elevated: #11170D;
+
+  /* =======================================================
+     TEXT
+  ======================================================= */
+
+  --text-primary: #EEEEEE;
+  --text-secondary: #C8C8C8;
+  --text-muted: #8E8E8E;
+
+  /* =======================================================
+     BORDERS
+  ======================================================= */
+
+  --border: #253900;
+  --border-light: #1A260F;
+  --divider: rgba(37, 57, 0, 0.55);
+
+  /* =======================================================
+     STATUS
+  ======================================================= */
+
+  --success: #08CB00;
+  --warning: #C8C8C8;
+  --error: #8E8E8E;
+}
+
+
+/* =========================================================
+   BASE
+========================================================= */
+
+@layer base {
+
+  html {
+    scroll-behavior: smooth;
+    background: #000000;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+
+    background: #000000;
+
+    color: #EEEEEE;
+
+    font-feature-settings:
+      'ss01' on,
+      'cv01' on;
+  }
+
+  ::selection {
+    background: rgba(8, 203, 0, 0.25);
+    color: #FFFFFF;
+  }
+
+  :focus-visible {
+    outline: 2px solid #08CB00;
+    outline-offset: 2px;
+  }
+}
+
+
+/* =========================================================
+   DATA NETWORK BACKGROUND
+   Decorative, viewport-fixed layer. Markup lives in
+   components/AnimatedBackground.jsx. Content sits above it (z-10).
+========================================================= */
+
+.data-network-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+  background: #000000;
+}
+
+/* Technical grid: fine 50px lines + a stronger 250px major grid.
+   No mask, so it stays visible across the whole viewport. */
+.data-network-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(8, 203, 0, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8, 203, 0, 0.16) 1px, transparent 1px),
+    linear-gradient(rgba(8, 203, 0, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8, 203, 0, 0.09) 1px, transparent 1px);
+  background-size: 250px 250px, 250px 250px, 50px 50px, 50px 50px;
+}
+
+/* Ambient green light: accents only, never a full-page wash */
+.data-network-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(8, 203, 0, 0.10), transparent 35%),
+    radial-gradient(circle at 82% 72%, rgba(8, 203, 0, 0.07), transparent 38%),
+    radial-gradient(circle at 60% 8%, rgba(37, 57, 0, 0.30), transparent 40%);
+  animation: dmGlowBreathe 14s ease-in-out infinite alternate;
+}
+
+.data-network-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.data-network-pulse {
+  animation-name: dmNodePulse;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes dmNodePulse {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+
+@keyframes dmGlowBreathe {
+  0%   { opacity: 0.75; }
+  100% { opacity: 1; }
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+@layer components {
+
+  .card {
+    @apply rounded-xl2 backdrop-blur-sm;
+
+    background: rgba(12, 16, 10, 0.9);
+
+    border: 1px solid rgba(37, 57, 0, 0.75);
+
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.025) inset,
+      0 12px 35px -18px rgba(0, 0, 0, 0.9);
+  }
+
+
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-0.5;
+  }
+
+
+  .card-hover:hover {
+
+    border-color: rgba(8, 203, 0, 0.5);
+
+    box-shadow:
+      0 0 0 1px rgba(8, 203, 0, 0.12),
+      0 15px 40px -15px rgba(8, 203, 0, 0.25);
+  }
+
+
+  /* =======================================================
+     GLASS PANEL
+  ======================================================= */
+
+  .glass-panel {
+
+    @apply backdrop-blur-xl;
+
+    background: rgba(8, 10, 6, 0.85);
+
+    border: 1px solid rgba(37, 57, 0, 0.6);
+  }
+
+
+  /* =======================================================
+     GRADIENT TEXT
+  ======================================================= */
+
+  .animated-gradient-text {
+
+    background-image:
+      linear-gradient(
+        90deg,
+        #08CB00,
+        #4BE544,
+        #EEEEEE,
+        #08CB00
+      );
+
+    @apply bg-[length:200%_auto]
+           bg-clip-text
+           text-transparent
+           animate-gradientShift;
+  }
+
+
+  /* =======================================================
+     SKELETON
+  ======================================================= */
+
+  .skeleton-shimmer {
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(12, 16, 10, 0.8) 25%,
+        rgba(37, 57, 0, 0.75) 37%,
+        rgba(12, 16, 10, 0.8) 63%
+      );
+
+    background-size: 400% 100%;
+
+    @apply animate-shimmer;
+  }
+
+
+  /* =======================================================
+     PRIMARY BUTTON
+  ======================================================= */
+
+  .btn-primary {
+
+    @apply inline-flex
+           items-center
+           justify-center
+           gap-2
+           rounded-lg
+           px-4
+           py-2.5
+           text-sm
+           font-semibold
+           transition-all
+           active:scale-[0.98]
+           disabled:opacity-50
+           disabled:cursor-not-allowed;
+
+    color: #000000;
+
+    background: #08CB00;
+
+    box-shadow:
+      0 8px 25px -10px rgba(8, 203, 0, 0.7);
+  }
+
+
+  .btn-primary:hover {
+
+    background: #08CB00;
+
+    box-shadow:
+      0 0 0 1px rgba(8, 203, 0, 0.3),
+      0 12px 35px -8px rgba(8, 203, 0, 0.55);
+
+    transform: translateY(-1px);
+  }
+
+
+  /* =======================================================
+     SECONDARY BUTTON
+  ======================================================= */
+
+  .btn-secondary {
+
+    @apply inline-flex
+           items-center
+           justify-center
+           gap-2
+           rounded-lg
+           px-4
+           py-2.5
+           text-sm
+           font-medium
+           transition-all
+           active:scale-[0.98];
+
+    color: #EEEEEE;
+
+    background: #080A06;
+
+    border: 1px solid #253900;
+  }
+
+
+  .btn-secondary:hover {
+
+    background: #11170D;
+
+    border-color: #08CB00;
+
+    color: #FFFFFF;
+  }
+
+
+  /* =======================================================
+     GHOST BUTTON
+  ======================================================= */
+
+  .btn-ghost {
+
+    @apply inline-flex
+           items-center
+           justify-center
+           gap-2
+           rounded-lg
+           px-3
+           py-2
+           text-sm
+           font-medium
+           transition-all;
+
+    color: #C8C8C8;
+  }
+
+
+  .btn-ghost:hover {
+
+    background: rgba(37, 57, 0, 0.35);
+
+    color: #EEEEEE;
+  }
+
+
+  /* =======================================================
+     INPUT
+  ======================================================= */
+
+  .input-field {
+
+    @apply w-full
+           rounded-lg
+           px-3.5
+           py-2.5
+           text-sm
+           transition-colors
+           focus:outline-none
+           focus:ring-1;
+
+    background: #080A06;
+
+    border: 1px solid #253900;
+
+    color: #EEEEEE;
+  }
+
+
+  .input-field::placeholder {
+    color: #666666;
+  }
+
+
+  .input-field:focus {
+
+    border-color: #08CB00;
+
+    box-shadow:
+      0 0 0 1px rgba(8, 203, 0, 0.2);
+  }
+
+
+  /* =======================================================
+     LABEL
+  ======================================================= */
+
+  .label-text {
+
+    @apply mb-1.5
+           block
+           text-xs
+           font-medium
+           uppercase
+           tracking-wide;
+
+    color: #8E8E8E;
+  }
+
+
+  /* =======================================================
+     BADGE
+  ======================================================= */
+
+  .badge {
+
+    @apply inline-flex
+           items-center
+           gap-1
+           rounded-full
+           px-2.5
+           py-1
+           text-xs
+           font-medium;
+
+    background: rgba(8, 203, 0, 0.08);
+
+    color: #08CB00;
+
+    border: 1px solid rgba(8, 203, 0, 0.22);
+  }
+
+
+  /* =======================================================
+     SECTION HEADING
+  ======================================================= */
+
+  .section-heading {
+
+    @apply text-2xl
+           font-bold
+           tracking-tight
+           sm:text-3xl;
+
+    color: #EEEEEE;
+  }
+
+
+  /* =======================================================
+     DATA NETWORK NODE
+     Useful for custom React elements
+  ======================================================= */
+
+  .data-node {
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #08CB00;
+
+    box-shadow:
+      0 0 6px rgba(8, 203, 0, 0.8),
+      0 0 18px rgba(8, 203, 0, 0.35);
+
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+
+    animation-duration: 0.001ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.001ms !important;
+
+    scroll-behavior: auto !important;
+  }
+
+  .data-network-glow,
+  .data-network-pulse {
+
+    animation: none;
+  }
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+
+  width: 9px;
+  height: 9px;
+}
+
+
+::-webkit-scrollbar-track {
+
+  background: #030603;
+}
+
+
+::-webkit-scrollbar-thumb {
+
+  background: #253900;
+
+  border-radius: 999px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+  background: #08CB00;
+}
